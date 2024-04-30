@@ -8,13 +8,57 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface NvqLoanCalculator {
         /**
+          * The AmortizationPeriod label
+         */
+        "amortizationPeriodLabel": string;
+        /**
+          * The heading for CALCULATOR section
+         */
+        "calculatorHeading": string;
+        /**
           * The description for lead copy
          */
         "description": string;
         /**
+          * The Down Payment label
+         */
+        "downPaymentLabel": string;
+        /**
+          * Example 1 heading
+         */
+        "example1Heading": string;
+        /**
+          * Example 2 heading
+         */
+        "example2Heading": string;
+        /**
+          * The heading for EXAMPLES section
+         */
+        "examplesHeading": string;
+        /**
           * The heading for lead copy
          */
         "heading": string;
+        /**
+          * /**   The interest rate footnote - used with Examples section (optional)
+         */
+        "interestRateFootnote": string;
+        /**
+          * The Interest Rate label
+         */
+        "interestRateLabel": string;
+        /**
+          * /**   The monthly payment footnote (optional)
+         */
+        "monthlyPaymentFootnote": string;
+        /**
+          * The monthly payment label
+         */
+        "monthlyPaymentLabel": string;
+        /**
+          * The Total Amount label
+         */
+        "totalAmountLabel": string;
     }
 }
 declare global {
@@ -31,13 +75,57 @@ declare global {
 declare namespace LocalJSX {
     interface NvqLoanCalculator {
         /**
+          * The AmortizationPeriod label
+         */
+        "amortizationPeriodLabel"?: string;
+        /**
+          * The heading for CALCULATOR section
+         */
+        "calculatorHeading"?: string;
+        /**
           * The description for lead copy
          */
         "description"?: string;
         /**
+          * The Down Payment label
+         */
+        "downPaymentLabel"?: string;
+        /**
+          * Example 1 heading
+         */
+        "example1Heading"?: string;
+        /**
+          * Example 2 heading
+         */
+        "example2Heading"?: string;
+        /**
+          * The heading for EXAMPLES section
+         */
+        "examplesHeading"?: string;
+        /**
           * The heading for lead copy
          */
         "heading"?: string;
+        /**
+          * /**   The interest rate footnote - used with Examples section (optional)
+         */
+        "interestRateFootnote"?: string;
+        /**
+          * The Interest Rate label
+         */
+        "interestRateLabel"?: string;
+        /**
+          * /**   The monthly payment footnote (optional)
+         */
+        "monthlyPaymentFootnote"?: string;
+        /**
+          * The monthly payment label
+         */
+        "monthlyPaymentLabel"?: string;
+        /**
+          * The Total Amount label
+         */
+        "totalAmountLabel"?: string;
     }
     interface IntrinsicElements {
         "nvq-loan-calculator": NvqLoanCalculator;
