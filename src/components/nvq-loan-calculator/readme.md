@@ -1,4 +1,4 @@
-# my-component
+# nvq-loan-calculator
 
 
 
