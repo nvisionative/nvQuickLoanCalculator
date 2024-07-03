@@ -1,4 +1,4 @@
-import { Component, Host, Prop, h } from '@stencil/core';
+import { Component, Host, Prop, h, State } from '@stencil/core';
 
 @Component({
   tag: 'nvq-loan-calculator',
@@ -72,6 +72,103 @@ export class NvqLoanCalculator {
    * The interest rate footnote - used with Examples section (optional)
    */
   @Prop() interestRateFootnote: string;
+  
+  @State() totalAmount: number;
+  @State() downPayment: number;
+  @State() interestRate: number;
+  @State() amortizationYears: number;
+
+  private onlyAllowNumbers(e: KeyboardEvent): void {
+    const key = e.key;
+
+    if (key === '-' || key === '+') {
+      e.preventDefault();
+      return;
+    }
+
+    // Allow control keys (backspace, delete, arrow keys, tab, etc.)
+    if (
+      key === 'Backspace' ||
+      key === 'Delete' ||
+      key === 'ArrowLeft' ||
+      key === 'ArrowRight' ||
+      key === 'ArrowUp' ||
+      key === 'ArrowDown' ||
+      key === 'Tab' ||
+      key === "Home" ||
+      key === "End"
+    ) {
+      return;
+    }
+
+    // Allow only numbers and decimal separator
+    if (!/^\d$/.test(key) && key !== '.' && key !== ',') {
+      e.preventDefault();
+    }
+  }
+
+  private getValidatedNumber(target: HTMLInputElement, digits: number): number {
+    if (target.validity.valid) {
+      const value = parseFloat(target.value);
+      const roundedValue = this.roundTo(value, digits);
+      target.dataset.lastValidValue = roundedValue.toString();
+      return roundedValue;
+    }
+  
+    if (target.dataset.lastValidValue === undefined) {
+      target.dataset.lastValidValue = "0";
+    }
+  
+    target.value = this.roundTo(parseFloat(target.dataset.lastValidValue), digits).toString();
+    this.displayErrorIfAny(target);
+    return this.roundTo(parseFloat(target.dataset.lastValidValue), digits);
+  }
+
+  private roundTo(value: number, digits: number): number {
+    const factor = Math.pow(10, digits);
+    return Math.round(value * factor) / factor;
+  }
+
+  private displayErrorIfAny(target: HTMLInputElement): void {
+    var errorElement = target.parentNode.querySelector('.error');
+    if (errorElement) {
+      errorElement.textContent = '';
+    }
+    
+    if (target.validity.valueMissing) {
+      var labelElement = target.parentNode.querySelector('label');
+      if (errorElement && labelElement) {
+        errorElement.textContent = `${labelElement.textContent} is required.`;
+        return;
+      }
+
+      if (errorElement) {
+        errorElement.textContent = 'Please enter a valid value.';
+        return;
+      }
+
+      target.reportValidity();
+    }
+  }
+
+  private calculatePayment() {
+    // Assuming monthly compounding.
+    const monthlyInterestRate = this.interestRate / 100 / 12;
+    const numberOfPayments = this.amortizationYears * 12;
+
+    if (monthlyInterestRate === 0) {
+      return (this.totalAmount - this.downPayment) / numberOfPayments;
+    }
+
+    const monthlyPayment = (this.totalAmount - this.downPayment) * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments) / (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+
+
+    if (isNaN(monthlyPayment)){
+      return "";
+    }
+
+    return monthlyPayment.toFixed(2);
+  }
 
   render() {
     return <Host>
@@ -106,23 +203,68 @@ export class NvqLoanCalculator {
               <div class="col py-5">
                 <div class="rmcp-input">
                   <label>{this.totalAmountLabel}</label>
-                  <input type="text" class="rmcp-input-text" placeholder={this.totalAmountLabel} value="" />
-                  <span class="rmcp-error"></span>
+                  <input
+                    type="number" class="rmcp-input-text"
+                    placeholder={this.totalAmountLabel}
+                    min={0}
+                    step={.01}
+                    required
+                    value={this.totalAmount}
+                    onKeyDown={e => this.onlyAllowNumbers(e)}
+                    onInput={e => this.totalAmount = this.getValidatedNumber(e.target as HTMLInputElement, 2)}
+                    onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
+                  />
+                  <span class="error"></span>
                 </div>
                 <div class="rmcp-input">
                   <label>{this.downPaymentLabel}</label>
-                  <input type="text" class="rmcp-input-text " placeholder={this.downPaymentLabel} value="" />
-                  <span class="rmcp-error"></span>
+                  <input
+                    type="number"
+                    class="rmcp-input-text"
+                    placeholder={this.downPaymentLabel}
+                    min={0}
+                    max={this.totalAmount}
+                    step={0.01}
+                    required
+                    value={this.downPayment}
+                    onKeyDown={e => this.onlyAllowNumbers(e)}
+                    onInput={e => this.downPayment = this.getValidatedNumber(e.target as HTMLInputElement, 2)}
+                    onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
+                  />
+                  <span class="error"></span>
                 </div>
                 <div class="rmcp-input">
                   <label>{this.interestRateLabel}</label>
-                  <input type="text" class="rmcp-input-text " placeholder={this.interestRateLabel} value="" />
-                  <span class="rmcp-error"></span>
+                  <input
+                    type="number"
+                    class="rmcp-input-text"
+                    placeholder={this.interestRateLabel}
+                    min={0}
+                    max={100}
+                    step={0.01}
+                    required
+                    value={this.interestRate}
+                    onKeyDown={e => this.onlyAllowNumbers(e)}
+                    onInput={e => this.interestRate = this.getValidatedNumber(e.target as HTMLInputElement, 2)}
+                    onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
+                  />
+                  <span class="error"></span>
                 </div>
                 <div class="rmcp-input">
                   <label>{this.amortizationPeriodLabel}</label>
-                  <input type="text" class="rmcp-input-text " placeholder={this.amortizationPeriodLabel} value="" />
-                  <span class="rmcp-error"></span>
+                  <input
+                    type="number"
+                    class="rmcp-input-text"
+                    placeholder={this.amortizationPeriodLabel}
+                    min={0}
+                    step={1}
+                    required
+                    value={this.amortizationYears}
+                    onKeyDown={e => this.onlyAllowNumbers(e)}
+                    onInput={e => this.amortizationYears = this.getValidatedNumber(e.target as HTMLInputElement, 0)}
+                    onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
+                  />
+                  <span class="error"></span>
                 </div>
               </div>
             </div>
@@ -131,7 +273,7 @@ export class NvqLoanCalculator {
             <div class="d-flex flex-column justify-content-center">
               <h4 class="text-center">{this.monthlyPaymentLabel}<sup>‡</sup></h4>
               <div class="d-flex justify-content-center">
-                <span class="output">$</span>
+                <span class="output">{this.calculatePayment()}$</span>
                 <div class="rmcp-results rmcp-results-6">
                   <div class="rmcp-results-detailed"></div>
                 </div>
