@@ -1,0 +1,203 @@
+:host {
+  display: block;
+
+  /** @prop --background-color-top: Defines the top color of the gradient that covers the component background. */
+  --background-color-top: #4b77c0;
+
+  /** @prop background-color-bottom: Defines the bottom color of the gradient that covers the component background. */
+  --background-color-bottom: #07429d;
+
+  /** @prop --background-color-contrast: A color that contrasts well with the overall background gradient. */
+  --background-color-contrast: #ffffff;
+  
+  /** @prop --calculator-background-top: Defines the top color of the gradient that covers the calculator background. */
+  --calculator-background-top: #e3e3e8;
+
+  /** @prop --calculator-background-bottom: Defines the bottom color of the gradient that covers the calculator background. */
+  --calculator-background-bottom: #e3e3e8;
+
+  /** @prop --calculator-color-contrast: A color that contrasts well with the calculator background gradient. */
+  --calculator-color-contrast: #1b222c;
+
+  /** @prop --calculator-header-background: The background color of the calculator header. */
+  --calculator-header-background: #1b222c;
+
+  /** @prop --calculator-header-foreground: The color of the text in the calculator header. */
+  --calculator-header-foreground: #e3e3e8;
+
+  /** @prop --shadow-color: The color of the shadow that surrounds the calculator, examples and result. */
+  --shadow-color: rgba(0,0,0,0.56);
+
+  /** @prop --error-color: The color of the error text. */
+  --error-color: #990000;
+
+  text-align: center;
+}
+
+h2, p{
+  text-align: start;
+}
+
+.container{
+  display: inline-flex;
+  margin: 1em auto;
+  justify-content: center;
+  align-items: stretch;
+  color: var(--background-color-contrast);
+  @media (max-width: 48em){
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 32em;
+  }
+  >div{
+    flex: 1 0 33%;
+    box-shadow: 0 16px 38px -12px var(--shadow-color);
+    @media (max-width: 48rem){
+      flex-basis: 100%;
+      transform: scale(1);
+      margin-bottom: 1em;
+    }
+  }
+  .examples, .result{
+    padding: 2em 1.75em;
+    background: linear-gradient(to bottom, var(--background-color-top), var(--background-color-bottom));
+  }
+  .examples{
+    display: flex;
+    flex-direction: column;
+    h3{
+      font-size: 1.75em;
+      margin: 0.5em 0;
+      font-weight: 500;
+    }
+    h5{
+      font-size: 1.25em;
+      text-align: left;
+      margin: 1.25em 0 0.5em;
+    }
+    ul{
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      li{
+        display: flex;
+        justify-content: space-between;
+        span{
+          text-wrap: nowrap;
+          &:first-child{
+            padding-right: 0.5em;
+          }
+        }
+      }
+    }
+  }
+  .calculator{
+    background: linear-gradient(to bottom, var(--calculator-background-top), var(--calculator-background-bottom));
+    color: var(--calculator-color-contrast);
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 48em){
+      transform: scale(1.05);
+    }
+    label{
+      display: none;
+    }
+    h3{
+      font-size: 1.75em;
+      font-weight: 500;
+      background-color: var(--calculator-header-background);
+      color: var(--calculator-header-foreground);
+      margin: 0;
+      padding: 0.5em 0
+    }
+    .inputs{
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1em;
+      padding: 3em 0;
+      .input-wrapper{
+        display: flex;
+        flex-direction: column;
+        margin: 0 2em;
+        position: relative;
+        &.dollars{
+          &:before{
+            content: '$';
+            position: absolute;
+            left: 0.5em;
+            top: 0.2em;
+            color: var(--calculator-color-contrast);
+          }
+        }
+        &.percent{
+          &:after{
+            content: '%';
+            position: absolute;
+            right: 0.5em;
+            top: 0.2em;
+            color: var(--calculator-color-contrast);
+          }
+        }
+        &.years{
+          &:after{
+            content: 'years';
+            position: absolute;
+            right: 0.5em;
+            top: 0.2em;
+            color: var(--calculator-color-contrast);
+          }
+        }
+        input{
+          padding-left: 1.5em;
+          padding-right: 3.5em;
+          height: 2em;
+          border: none;
+          margin: 0;
+          background-color:transparent;
+          border: none;
+          border-bottom: 1px solid var(--calculator-color-contrast);
+          
+          // Hides spinner in Chrome, Safari, Edge and Opera
+          &::-webkit-inner-spin-button, &::-webkit-outer-spin-button{
+            -webkit-appearance: none;
+            margin: 0;
+          }
+
+          // Hides spinner in Firefox
+          appearance: textfield;
+          -moz-appearance: textfield;
+
+          // IE (why not). Hides spinner in IE 10-11
+          &::-ms-clear, &::-ms-reveal{
+            display: none;
+          }
+        }
+        .error{
+          min-height: 1.42em;
+          font-size: 0.75em;
+          color: var(--error-color);
+          text-align: left;
+        }
+      }
+    }
+  }
+  .result{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    h4{
+      font-size: 1.5em;
+    }
+    .output{
+      font-size: 3em;
+      font-weight: 800;
+    }
+    .disclaimer{
+      margin-top: 50%;
+      text-align: center;
+    }
+  }
+}

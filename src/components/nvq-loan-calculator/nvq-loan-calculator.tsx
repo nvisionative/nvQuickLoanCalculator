@@ -2,7 +2,7 @@ import { Component, Host, Prop, h, State } from '@stencil/core';
 
 @Component({
   tag: 'nvq-loan-calculator',
-  styleUrl: 'nvq-loan-calculator.css',
+  styleUrl: 'nvq-loan-calculator.scss',
   shadow: true,
 })
 export class NvqLoanCalculator {
@@ -174,11 +174,11 @@ export class NvqLoanCalculator {
     return <Host>
       <h2>{this.heading}</h2>
       <p>{this.description}</p>
-      <div class="container calculator">
-        <div class="row justify-content-center">
-          <div class="col-lg-3 bg-gradient my-3 d-flex flex-column text-white">
-            <h3 class="text-center">{this.examplesHeading}</h3>
-            <h5 class="mt-2">{this.example1Heading}</h5>
+      <div class="container">
+        <div class="examples">
+          <h3>{this.examplesHeading}</h3>
+          <div class="example">
+            <h5>{this.example1Heading}</h5>
             <ul>
               <li><span>{this.totalAmountLabel}:</span> <span>$100,000</span></li>
               <li><span>{this.downPaymentLabel}:</span> <span>$0</span></li>
@@ -186,111 +186,93 @@ export class NvqLoanCalculator {
               <li><span>{this.amortizationPeriodLabel}:</span> <span>20 Years</span></li>
               <li><span>{this.monthlyPaymentLabel}<sup>*</sup>:</span> <span>$867.19</span></li>
             </ul>
-            <h5 class="mt-4">{this.example2Heading}</h5>
+          </div>
+          <div class="example">
+            <h5>{this.example2Heading}</h5>
             <ul>
               <li><span>{this.totalAmountLabel}:</span> <span>$100,000</span></li>
               <li><span>{this.downPaymentLabel}:</span> <span>$0</span></li>
               <li><span>{this.interestRateLabel}:</span> <span>9.24%<sup>*</sup></span></li>
               <li><span>{this.amortizationPeriodLabel}:</span> <span>30 Years</span></li>
               <li><span>{this.monthlyPaymentLabel}<sup>*</sup>:</span> <span>$821.95</span></li>
-            </ul></div>
-          <div class="col-lg-4 bg-gray calculator-form d-flex flex-column">
-            <div class="row">
-              <div class="col bg-dark text-white p-3">
-                <h3 class="text-center">{this.calculatorHeading}</h3>
-              </div></div>
-            <div class="row align-items-center box">
-              <div class="col py-5">
-                <div class="rmcp-input">
-                  <label>{this.totalAmountLabel}</label>
-                  <input
-                    type="number" class="rmcp-input-text"
-                    placeholder={this.totalAmountLabel}
-                    min={0}
-                    step={.01}
-                    required
-                    value={this.totalAmount}
-                    onKeyDown={e => this.onlyAllowNumbers(e)}
-                    onInput={e => this.totalAmount = this.getValidatedNumber(e.target as HTMLInputElement, 2)}
-                    onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
-                  />
-                  <span class="error"></span>
-                </div>
-                <div class="rmcp-input">
-                  <label>{this.downPaymentLabel}</label>
-                  <input
-                    type="number"
-                    class="rmcp-input-text"
-                    placeholder={this.downPaymentLabel}
-                    min={0}
-                    max={this.totalAmount}
-                    step={0.01}
-                    required
-                    value={this.downPayment}
-                    onKeyDown={e => this.onlyAllowNumbers(e)}
-                    onInput={e => this.downPayment = this.getValidatedNumber(e.target as HTMLInputElement, 2)}
-                    onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
-                  />
-                  <span class="error"></span>
-                </div>
-                <div class="rmcp-input">
-                  <label>{this.interestRateLabel}</label>
-                  <input
-                    type="number"
-                    class="rmcp-input-text"
-                    placeholder={this.interestRateLabel}
-                    min={0}
-                    max={100}
-                    step={0.01}
-                    required
-                    value={this.interestRate}
-                    onKeyDown={e => this.onlyAllowNumbers(e)}
-                    onInput={e => this.interestRate = this.getValidatedNumber(e.target as HTMLInputElement, 2)}
-                    onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
-                  />
-                  <span class="error"></span>
-                </div>
-                <div class="rmcp-input">
-                  <label>{this.amortizationPeriodLabel}</label>
-                  <input
-                    type="number"
-                    class="rmcp-input-text"
-                    placeholder={this.amortizationPeriodLabel}
-                    min={0}
-                    step={1}
-                    required
-                    value={this.amortizationYears}
-                    onKeyDown={e => this.onlyAllowNumbers(e)}
-                    onInput={e => this.amortizationYears = this.getValidatedNumber(e.target as HTMLInputElement, 0)}
-                    onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
-                  />
-                  <span class="error"></span>
-                </div>
-              </div>
+            </ul>
+          </div>
+        </div>
+        <div class="calculator">
+          <h3 class="text-center">{this.calculatorHeading}</h3>
+          <div class="inputs">
+            <div class="input-wrapper dollars">
+              <label>{this.totalAmountLabel}</label>
+              <input
+                type="number"
+                placeholder={this.totalAmountLabel}
+                min={0}
+                step={.01}
+                required
+                value={this.totalAmount}
+                onKeyDown={e => this.onlyAllowNumbers(e)}
+                onInput={e => this.totalAmount = this.getValidatedNumber(e.target as HTMLInputElement, 2)}
+                onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
+              />
+              <div class="error"></div>
+            </div>
+            <div class="input-wrapper dollars">
+              <label>{this.downPaymentLabel}</label>
+              <input
+                type="number"
+                placeholder={this.downPaymentLabel}
+                min={0}
+                max={this.totalAmount}
+                step={0.01}
+                required
+                value={this.downPayment}
+                onKeyDown={e => this.onlyAllowNumbers(e)}
+                onInput={e => this.downPayment = this.getValidatedNumber(e.target as HTMLInputElement, 2)}
+                onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
+              />
+              <div class="error"></div>
+            </div>
+            <div class="input-wrapper percent">
+              <label>{this.interestRateLabel}</label>
+              <input
+                type="number"
+                placeholder={this.interestRateLabel}
+                min={0}
+                max={100}
+                step={0.01}
+                required
+                value={this.interestRate}
+                onKeyDown={e => this.onlyAllowNumbers(e)}
+                onInput={e => this.interestRate = this.getValidatedNumber(e.target as HTMLInputElement, 2)}
+                onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
+              />
+              <div class="error"></div>
+            </div>
+            <div class="input-wrapper years">
+              <label>{this.amortizationPeriodLabel}</label>
+              <input
+                type="number"
+                placeholder={this.amortizationPeriodLabel}
+                min={0}
+                step={1}
+                required
+                value={this.amortizationYears}
+                onKeyDown={e => this.onlyAllowNumbers(e)}
+                onInput={e => this.amortizationYears = this.getValidatedNumber(e.target as HTMLInputElement, 0)}
+                onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
+              />
+              <div class="error"></div>
             </div>
           </div>
-          <div class="col-lg-3  bg-gradient my-3 d-flex flex-column text-white p-4 align-items-center justify-content-between">
-            <div class="d-flex flex-column justify-content-center">
-              <h4 class="text-center">{this.monthlyPaymentLabel}<sup>‡</sup></h4>
-              <div class="d-flex justify-content-center">
-                <span class="output">{this.calculatePayment()}$</span>
-                <div class="rmcp-results rmcp-results-6">
-                  <div class="rmcp-results-detailed"></div>
-                </div>
-              </div>
-            </div>
-            <div class="text-center">
-              <p class="disclaimer mb-4"><sup>‡</sup>{this.monthlyPaymentFootnote}</p>
-            </div>
-          </div>
-          <p></p>
+        </div>
+        <div class="result">
+          <h4 class="text-center">{this.monthlyPaymentLabel}<sup>‡</sup></h4>
+          <span class="output">{this.calculatePayment()}$</span>
+            <p class="disclaimer mb-4"><sup>‡</sup>{this.monthlyPaymentFootnote}</p>
+
         </div>
       </div>
-      <div class="row">
-        <div class="col">
-          <p><small><sup>*</sup> {this.interestRateFootnote}</small></p>
-        </div>
-      </div>
+      <p><small><sup>*</sup> {this.interestRateFootnote}</small></p>
     </Host>
   }
 }
