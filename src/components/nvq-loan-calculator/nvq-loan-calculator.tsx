@@ -267,7 +267,7 @@ export class NvqLoanCalculator {
         </div>
         <div class="result">
           <h4 class="text-center">{this.monthlyPaymentLabel}<sup>‡</sup></h4>
-          <span class="output">{this.calculatePayment()}$</span>
+          <span class="output">${this.calculatePayment()}</span>
             <p class="disclaimer mb-4"><sup>‡</sup>{this.monthlyPaymentFootnote}</p>
 
         </div>
