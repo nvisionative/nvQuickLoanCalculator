@@ -24,6 +24,21 @@
 | `totalAmountLabel`        | `total-amount-label`        | The Total Amount label                                                   | `string` | `undefined` |
 
 
+## CSS Custom Properties
+
+| Name                             | Description                                                                     |
+| -------------------------------- | ------------------------------------------------------------------------------- |
+| `--background-color-contrast`    | A color that contrasts well with the overall background gradient.               |
+| `--background-color-top`         | Defines the top color of the gradient that covers the component background.     |
+| `--calculator-background-bottom` | Defines the bottom color of the gradient that covers the calculator background. |
+| `--calculator-background-top`    | Defines the top color of the gradient that covers the calculator background.    |
+| `--calculator-color-contrast`    | A color that contrasts well with the calculator background gradient.            |
+| `--calculator-header-background` | The background color of the calculator header.                                  |
+| `--calculator-header-foreground` | The color of the text in the calculator header.                                 |
+| `--error-color`                  | The color of the error text.                                                    |
+| `--shadow-color`                 | The color of the shadow that surrounds the calculator, examples and result.     |
+
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*
