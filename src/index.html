@@ -11,23 +11,82 @@
       body {
         font-family: "Open sans", Arial, sans-serif;
       }
+
+      .loan-examples h3{
+        font-size: 1.75em;
+        margin: 0.5em 0;
+        font-weight: 500;
+      }
+      
+      .loan-examples h5{
+        font-size: 1.25em;
+        text-align: left;
+        margin: 1.25em 0 0.5em;
+      }
+      
+      .loan-examples ul{
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .loan-examples ul li{
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .loan-examples ul li span{
+        text-wrap: nowrap;
+      }
+
+      .loan-examples ul li span:first-child{
+        padding-right: 0.5em;
+      }
+
+      .heading{
+        text-align: start;
+      }
     </style>
   </head>
   <body>
-    <nvq-loan-calculator
-      heading="Explore Your Scenario"
-      description="Use our Monthly Payment Calculator to find your estimated monthly payment. Then contact one of our experienced and helpful loan representatives to discuss which program is best for you."
-      example-1-heading="Example 1"
-      example-2-heading="Example 2"
-      total-amount-label="Total Amount"
-      down-payment-label="Down Payment"
-      interest-rate-label="Interest Rate"
-      amortization-period-label="Amortization Period"
-      monthly-payment-label="Monthly Payment"
-      monthly-payment-footnote="estimated payment"
-      examples-heading="EXAMPLES"
-      interest-rate-footnote="Your APR and monthly payment may differ based on loan purpose, amount, term, and your credit profile. Subject to credit approval. Conditions and limitations apply. Advertised rates and terms are subject to change without notice. Exact interest rate determined by credit profile."
-      calculator-heading="CALCULATOR"
-    />
+    <nvq-loan-calculator>
+      <div slot="heading">
+        <div class="heading">
+          <h2>Explore Your Scenario</h2>
+          <p>
+            Use our Monthly Payment Calculator to find your estimated monthly payment. Then contact one of our experienced and helpful loan representatives to discuss which program is best for you.
+          </p>
+        </div>
+      </div>
+      <div slot="examples" class="loan-examples">
+        <div class="example">
+          <h5>Example A:</h5>
+          <ul>
+            <li><span>Total Amount</span> <span>$100,000</span></li>
+            <li><span>Down Payment:</span> <span>$0</span></li>
+            <li><span>Interest Rate:</span> <span>8.99%<sup>*</sup></span></li>
+            <li><span>Amortization Pediod:</span> <span>20 Years</span></li>
+            <li><span>Monthly Payment<sup>*</sup>:</span> <span>$899.08</span></li>
+          </ul>
+        </div>
+        <div class="example">
+          <h5>Example B:</h5>
+          <ul>
+            <li><span>Total Amount</span> <span>$100,000</span></li>
+            <li><span>Down Payment:</span> <span>$0</span></li>
+            <li><span>Interest Rate:</span> <span>9.24%<sup>*</sup></span></li>
+            <li><span>Amortization Pediod:</span> <span>30 Years</span></li>
+            <li><span>Monthly Payment<sup>*</sup>:</span> <span>$821.95</span></li>
+          </ul>
+        </div>
+      </div>
+      <div slot="footnote">
+        <p>
+          <small>
+            <sup>*</sup> Your APR and monthly payment may differ based on loan purpose, amount, term, and your credit profile. Subject to credit approval. Conditions and limitations apply. Advertised rates and terms are subject to change without notice. Exact interest rate determined by credit profile.
+          </small>
+        </p>
+      </div>
+    </nvq-loan-calculator>
   </body>
 </html>

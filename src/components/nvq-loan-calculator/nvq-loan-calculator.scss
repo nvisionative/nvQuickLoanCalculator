@@ -31,11 +31,13 @@
   /** @prop --error-color: The color of the error text. */
   --error-color: #990000;
 
-  text-align: center;
-}
+  /** @prop --currency-label: The label for the currency input. */
+  --currency-label: '$';
 
-h2, p{
-  text-align: start;
+  /** @prop --years-label: The label for the years input. */
+  --years-label: 'years';
+
+  text-align: center;
 }
 
 .container{
@@ -71,26 +73,6 @@ h2, p{
       margin: 0.5em 0;
       font-weight: 500;
     }
-    h5{
-      font-size: 1.25em;
-      text-align: left;
-      margin: 1.25em 0 0.5em;
-    }
-    ul{
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      li{
-        display: flex;
-        justify-content: space-between;
-        span{
-          text-wrap: nowrap;
-          &:first-child{
-            padding-right: 0.5em;
-          }
-        }
-      }
-    }
   }
   .calculator{
     background: linear-gradient(to bottom, var(--calculator-background-top), var(--calculator-background-bottom));
@@ -125,7 +107,7 @@ h2, p{
         position: relative;
         &.dollars{
           &:before{
-            content: '$';
+            content: var(--currency-label);
             position: absolute;
             left: 0.5em;
             top: 0.2em;
@@ -143,7 +125,7 @@ h2, p{
         }
         &.years{
           &:after{
-            content: 'years';
+            content: var(--years-label);
             position: absolute;
             right: 0.5em;
             top: 0.2em;
