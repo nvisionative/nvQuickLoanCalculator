@@ -6,62 +6,48 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    /**
+     * A loan calculator component.
+     */
     interface NvqLoanCalculator {
         /**
-          * The AmortizationPeriod label
+          * The AmortizationPeriod label.
          */
-        "amortizationPeriodLabel": string;
+        "amortizationPeriodLabel"?: string;
         /**
-          * The heading for CALCULATOR section
+          * The heading for CALCULATOR section.
          */
-        "calculatorHeading": string;
+        "calculatorHeading"?: string;
         /**
-          * The description for lead copy
+          * The Down Payment label.
          */
-        "description": string;
+        "downPaymentLabel"?: string;
         /**
-          * The Down Payment label
+          * The heading for EXAMPLES section.
          */
-        "downPaymentLabel": string;
+        "examplesHeading"?: string;
         /**
-          * Example 1 heading
+          * The Interest Rate label.
          */
-        "example1Heading": string;
+        "interestRateLabel"?: string;
         /**
-          * Example 2 heading
+          * The monthly payment footnote.
          */
-        "example2Heading": string;
+        "monthlyPaymentDisclaimer"?: string;
         /**
-          * The heading for EXAMPLES section
+          * The monthly payment label.
          */
-        "examplesHeading": string;
+        "monthlyPaymentLabel"?: string;
         /**
-          * The heading for lead copy
+          * The Total Amount label.
          */
-        "heading": string;
-        /**
-          * /**   The interest rate footnote - used with Examples section (optional)
-         */
-        "interestRateFootnote": string;
-        /**
-          * The Interest Rate label
-         */
-        "interestRateLabel": string;
-        /**
-          * /**   The monthly payment footnote (optional)
-         */
-        "monthlyPaymentFootnote": string;
-        /**
-          * The monthly payment label
-         */
-        "monthlyPaymentLabel": string;
-        /**
-          * The Total Amount label
-         */
-        "totalAmountLabel": string;
+        "totalAmountLabel"?: string;
     }
 }
 declare global {
+    /**
+     * A loan calculator component.
+     */
     interface HTMLNvqLoanCalculatorElement extends Components.NvqLoanCalculator, HTMLStencilElement {
     }
     var HTMLNvqLoanCalculatorElement: {
@@ -73,57 +59,40 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    /**
+     * A loan calculator component.
+     */
     interface NvqLoanCalculator {
         /**
-          * The AmortizationPeriod label
+          * The AmortizationPeriod label.
          */
         "amortizationPeriodLabel"?: string;
         /**
-          * The heading for CALCULATOR section
+          * The heading for CALCULATOR section.
          */
         "calculatorHeading"?: string;
         /**
-          * The description for lead copy
-         */
-        "description"?: string;
-        /**
-          * The Down Payment label
+          * The Down Payment label.
          */
         "downPaymentLabel"?: string;
         /**
-          * Example 1 heading
-         */
-        "example1Heading"?: string;
-        /**
-          * Example 2 heading
-         */
-        "example2Heading"?: string;
-        /**
-          * The heading for EXAMPLES section
+          * The heading for EXAMPLES section.
          */
         "examplesHeading"?: string;
         /**
-          * The heading for lead copy
-         */
-        "heading"?: string;
-        /**
-          * /**   The interest rate footnote - used with Examples section (optional)
-         */
-        "interestRateFootnote"?: string;
-        /**
-          * The Interest Rate label
+          * The Interest Rate label.
          */
         "interestRateLabel"?: string;
         /**
-          * /**   The monthly payment footnote (optional)
+          * The monthly payment footnote.
          */
-        "monthlyPaymentFootnote"?: string;
+        "monthlyPaymentDisclaimer"?: string;
         /**
-          * The monthly payment label
+          * The monthly payment label.
          */
         "monthlyPaymentLabel"?: string;
         /**
-          * The Total Amount label
+          * The Total Amount label.
          */
         "totalAmountLabel"?: string;
     }
@@ -135,6 +104,9 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            /**
+             * A loan calculator component.
+             */
             "nvq-loan-calculator": LocalJSX.NvqLoanCalculator & JSXBase.HTMLAttributes<HTMLNvqLoanCalculatorElement>;
         }
     }

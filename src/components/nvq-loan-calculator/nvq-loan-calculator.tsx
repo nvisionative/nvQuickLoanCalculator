@@ -1,77 +1,40 @@
 import { Component, Host, Prop, h, State } from '@stencil/core';
 
+/**
+ * A loan calculator component.
+ * @slot heading - Can be used to inject heading content on top of the calculator.
+ * @slot examples - Can be used to inject examples content on the left side of the calculator.
+ * @slot footnote - Can be used to inject footnote content below the calculator.
+ * */
 @Component({
   tag: 'nvq-loan-calculator',
   styleUrl: 'nvq-loan-calculator.scss',
   shadow: true,
 })
 export class NvqLoanCalculator {
-  /**
-   * The heading for lead copy
-   */
-  @Prop() heading: string;
+  /** The heading for EXAMPLES section. */
+  @Prop() examplesHeading?: string = "EXAMPLES";
 
-  /**
-   * The description for lead copy
-   */
-  @Prop() description: string;
+  /** The heading for CALCULATOR section. */
+  @Prop() calculatorHeading?: string = "CALCULATOR";
 
-  /**
-   * The heading for EXAMPLES section
-   */
-  @Prop() examplesHeading: string;
+  /** The Total Amount label. */
+  @Prop() totalAmountLabel?: string = "Total Amount";
 
-  /**
-   * Example 1 heading
-   */
-  @Prop() example1Heading: string;
+  /** The Down Payment label. */
+  @Prop() downPaymentLabel?: string = "Down Payment";
 
-  /**
-   * Example 2 heading
-   */
-  @Prop() example2Heading: string;
+  /** The Interest Rate label. */
+  @Prop() interestRateLabel?: string = "Interest Rate";
 
-  /**
-   * The heading for CALCULATOR section
-   */
-  @Prop() calculatorHeading: string;
+  /** The AmortizationPeriod label. */
+  @Prop() amortizationPeriodLabel?: string = "Amortization Period";
 
-  /**
-   * The Total Amount label
-   */
-  @Prop() totalAmountLabel: string;
+  /** The monthly payment label. */
+  @Prop() monthlyPaymentLabel?: string = "Monthly Payment";
 
-  /**
-   * The Down Payment label
-   */
-  @Prop() downPaymentLabel: string;
-
-  /**
-   * The Interest Rate label
-   */
-  @Prop() interestRateLabel: string;
-
-  /**
-   * The AmortizationPeriod label
-   */
-  @Prop() amortizationPeriodLabel: string;
-
-  /**
-   * The monthly payment label
-   */
-  @Prop() monthlyPaymentLabel: string;
-
-  /**
-  /**
-   * The monthly payment footnote (optional)
-   */
-  @Prop() monthlyPaymentFootnote: string;
-
-  /**
-  /**
-   * The interest rate footnote - used with Examples section (optional)
-   */
-  @Prop() interestRateFootnote: string;
+  /** The monthly payment footnote. */
+  @Prop() monthlyPaymentDisclaimer?: string = "estimated payment";
   
   @State() totalAmount: number;
   @State() downPayment: number;
@@ -172,31 +135,17 @@ export class NvqLoanCalculator {
 
   render() {
     return <Host>
-      <h2>{this.heading}</h2>
-      <p>{this.description}</p>
+      <slot name="heading">
+        <h2>Explore Your Scenario</h2>
+        <p>
+          Use our Monthly Payment Calculator to find your estimated monthly payment. Then contact one of our experienced and helpful loan representatives to discuss which program is best for you.
+        </p>
+      </slot>
       <div class="container">
         <div class="examples">
           <h3>{this.examplesHeading}</h3>
-          <div class="example">
-            <h5>{this.example1Heading}</h5>
-            <ul>
-              <li><span>{this.totalAmountLabel}:</span> <span>$100,000</span></li>
-              <li><span>{this.downPaymentLabel}:</span> <span>$0</span></li>
-              <li><span>{this.interestRateLabel}:</span> <span>8.49%<sup>*</sup></span></li>
-              <li><span>{this.amortizationPeriodLabel}:</span> <span>20 Years</span></li>
-              <li><span>{this.monthlyPaymentLabel}<sup>*</sup>:</span> <span>$867.19</span></li>
-            </ul>
-          </div>
-          <div class="example">
-            <h5>{this.example2Heading}</h5>
-            <ul>
-              <li><span>{this.totalAmountLabel}:</span> <span>$100,000</span></li>
-              <li><span>{this.downPaymentLabel}:</span> <span>$0</span></li>
-              <li><span>{this.interestRateLabel}:</span> <span>9.24%<sup>*</sup></span></li>
-              <li><span>{this.amortizationPeriodLabel}:</span> <span>30 Years</span></li>
-              <li><span>{this.monthlyPaymentLabel}<sup>*</sup>:</span> <span>$821.95</span></li>
-            </ul>
-          </div>
+          <slot name="examples">
+          </slot>
         </div>
         <div class="calculator">
           <h3 class="text-center">{this.calculatorHeading}</h3>
@@ -267,12 +216,17 @@ export class NvqLoanCalculator {
         </div>
         <div class="result">
           <h4 class="text-center">{this.monthlyPaymentLabel}<sup>‡</sup></h4>
-          <span class="output">${this.calculatePayment()}</span>
-            <p class="disclaimer mb-4"><sup>‡</sup>{this.monthlyPaymentFootnote}</p>
-
+          <span class="output">{this.calculatePayment()}$</span>
+            <p class="disclaimer mb-4"><sup>‡</sup>{this.monthlyPaymentDisclaimer}</p>
         </div>
       </div>
-      <p><small><sup>*</sup> {this.interestRateFootnote}</small></p>
+      <slot name="footnote">
+        <p>
+          <small>
+            <sup>*</sup> Your APR and monthly payment may differ based on loan purpose, amount, term, and your credit profile. Subject to credit approval. Conditions and limitations apply. Advertised rates and terms are subject to change without notice. Exact interest rate determined by credit profile.
+          </small>
+        </p>
+      </slot>
     </Host>
   }
 }
