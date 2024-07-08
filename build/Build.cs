@@ -23,7 +23,7 @@ using static Nuke.Common.Tools.Npm.NpmTasks;
 [GitHubActions(
   "PR_Validation",
   GitHubActionsImage.UbuntuLatest,
-  ImportSecrets = new[] { nameof(GithubToken) },
+  ImportSecrets = new[] { nameof(GithubToken), "GITHUB_TOKEN" },
   OnPullRequestBranches = new[] { "main", "develop", "release/*" },
   InvokedTargets = new[] { nameof(Compile) },
   FetchDepth = 0
