@@ -1,4 +1,4 @@
-# nvQuickLoanCalculator
+# nvQuickLoanCalculator 
 nvQuickLoanCalculator is a web component (HTML Element) that can be consumed in any web-based context.  As of v1.0.0, it is published as an `npm` package.  The web component will include the following loan calculator features:
 * Optional `Title` and `Description` lead copy.
 * Entry of `Total Amount`, `Down Payment`, `Interest Rate`, and `Amortization Period`.
