@@ -1,5 +1,5 @@
 {
-  "name": "nvq-loan-calculator",
+  "name": "@nvisionative/nvq-loan-calculator",
   "version": "1.0.0-beta0001",
   "description": "nvQuickLoanCalculator is a simple loan calculator that allows you to quickly calculate the monthly payment for a loan based on the loan amount, interest rate, and the loan term.",
   "main": "dist/index.cjs.js",
@@ -13,10 +13,6 @@
       "import": "./dist/nvq-loan-calculator/nvq-loan-calculator.esm.js",
       "require": "./dist/nvq-loan-calculator/nvq-loan-calculator.cjs.js"
     },
-    "./my-component": {
-      "import": "./dist/components/my-component.js",
-      "types": "./dist/components/my-component.d.ts"
-    },
     "./loader": {
       "import": "./loader/index.js",
       "require": "./loader/index.cjs",
@@ -25,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ionic-team/stencil-component-starter.git"
+    "url": "git+https://github.com/nvisionative/nvq-loan-calculator.git"
   },
   "files": [
     "dist/",
