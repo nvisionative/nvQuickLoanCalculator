@@ -25,14 +25,16 @@ using static Nuke.Common.Tools.Npm.NpmTasks;
   GitHubActionsImage.UbuntuLatest,
   ImportSecrets = new[] { nameof(GithubToken) },
   OnPullRequestBranches = new[] { "main", "develop", "release/*" },
-  InvokedTargets = new[] { nameof(Compile) }
+  InvokedTargets = new[] { nameof(Compile) },
+  FetchDepth = 0
   )]
 [GitHubActions(
     "Deploy",
     GitHubActionsImage.UbuntuLatest,
     ImportSecrets = new[] { nameof(NpmToken), "NPM_TOKEN" },
     OnPushBranches = new[] { "main", "release/*" },
-    InvokedTargets = new[] { nameof(Deploy) }
+    InvokedTargets = new[] { nameof(Deploy) },
+    FetchDepth = 0
 )]
 class Build : NukeBuild
 {
