@@ -23,7 +23,6 @@ using static Nuke.Common.Tools.Npm.NpmTasks;
 [GitHubActions(
   "PR_Validation",
   GitHubActionsImage.UbuntuLatest,
-  ImportSecrets = new[] { nameof(GithubToken), "GITHUB_TOKEN" },
   OnPullRequestBranches = new[] { "main", "develop", "release/*" },
   InvokedTargets = new[] { nameof(Compile) },
   FetchDepth = 0
@@ -48,13 +47,14 @@ class Build : NukeBuild
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
-    [Parameter("Github Token")]
-    readonly string GithubToken;
+
     [Parameter("Npm Token")]
+    [Secret]
     readonly string NpmToken;
 
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion] readonly GitVersion GitVersion;
+    GitHubActions GitHubActions => GitHubActions.Instance;
 
     GitHubClient gitHubClient;
     string releaseNotes = "";
@@ -75,7 +75,7 @@ class Build : NukeBuild
 
     Target TagRelease => _ => _
     .OnlyWhenDynamic(() => GitRepository.IsOnMainOrMasterBranch() || GitRepository.IsOnReleaseBranch())
-    .OnlyWhenDynamic(() => !string.IsNullOrWhiteSpace(GithubToken))
+    .OnlyWhenDynamic(() => !string.IsNullOrWhiteSpace(GitHubActions.Token))
     .Executes(() =>
     {
         var version = GitRepository.IsOnMainOrMasterBranch() ? GitVersion.MajorMinorPatch : GitVersion.SemVer;
@@ -108,28 +108,30 @@ class Build : NukeBuild
         var actor = GitRepository.GetGitHubOwner();
         Git($"config --global user.name '{actor}'");
         Git($"config --global user.email '{actor}@github.com'");
+        Serilog.Log.Information($"GithubToken {GitHubActions.Token}");
+
         if (IsServerBuild)
         {
-            Git($"remote set-url origin https://{actor}:{GithubToken}@github.com/{GitRepository.GetGitHubOwner()}/{GitRepository.GetGitHubName()}.git");
+            Git($"remote set-url origin https://{actor}:{GitHubActions.Token}@github.com/{GitRepository.GetGitHubOwner()}/{GitRepository.GetGitHubName()}.git");
         }
         });
 
     Target SetupGitHubClient => _ => _
-        .OnlyWhenDynamic(() => !string.IsNullOrWhiteSpace(GithubToken))
+        .OnlyWhenDynamic(() => !string.IsNullOrWhiteSpace(GitHubActions.Token))
         .DependsOn(SetupGithubActor)
         .Executes(() =>
         {
         if (GitRepository.IsOnMainOrMasterBranch() || GitRepository.IsOnReleaseBranch())
         {
             gitHubClient = new GitHubClient(new ProductHeaderValue("Nuke"));
-            var tokenAuth = new Credentials(GithubToken);
+            var tokenAuth = new Credentials(GitHubActions.Token);
             gitHubClient.Credentials = tokenAuth;
         }
         });
 
     Target GenerateReleaseNotes => _ => _
         .OnlyWhenDynamic(() => GitRepository.IsOnMainOrMasterBranch() || GitRepository.IsOnReleaseBranch())
-        .OnlyWhenDynamic(() => !string.IsNullOrWhiteSpace(GithubToken))
+        .OnlyWhenDynamic(() => !string.IsNullOrWhiteSpace(GitHubActions.Token))
         .DependsOn(SetupGitHubClient)
         .DependsOn(TagRelease)
         .Executes(() =>
@@ -187,7 +189,7 @@ class Build : NukeBuild
 
     Target Release => _ => _
     .OnlyWhenDynamic(() => GitRepository.IsOnMainOrMasterBranch() || GitRepository.IsOnReleaseBranch())
-    .OnlyWhenDynamic(() => !string.IsNullOrWhiteSpace(GithubToken))
+    .OnlyWhenDynamic(() => !string.IsNullOrWhiteSpace(GitHubActions.Token))
     .DependsOn(SetupGitHubClient)
     .DependsOn(GenerateReleaseNotes)
     .DependsOn(TagRelease)
