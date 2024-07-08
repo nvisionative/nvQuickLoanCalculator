@@ -18,9 +18,10 @@
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
         },
-        "GithubToken": {
+        "GitHubToken": {
           "type": "string",
-          "description": "Github Token"
+          "description": "GitHub Token",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "Help": {
           "type": "boolean",
@@ -53,7 +54,8 @@
         },
         "NpmToken": {
           "type": "string",
-          "description": "Npm Token"
+          "description": "Npm Token",
+          "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "Partition": {
           "type": "string",
