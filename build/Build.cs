@@ -105,7 +105,7 @@ class Build : NukeBuild
     Target SetupGithubActor => _ => _
         .Executes(() =>
         {
-        var actor = Environment.GetEnvironmentVariable("GITHUB_ACTOR");
+        var actor = GitRepository.GetGitHubOwner();
         Git($"config --global user.name '{actor}'");
         Git($"config --global user.email '{actor}@github.com'");
         if (IsServerBuild)
