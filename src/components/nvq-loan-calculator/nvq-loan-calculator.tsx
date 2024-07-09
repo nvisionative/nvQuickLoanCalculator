@@ -70,7 +70,7 @@ export class NvqLoanCalculator {
     }
   }
 
-  private getValidatedNumber(target: HTMLInputElement, digits: number): number {
+  private getValidatedNumber(target: HTMLInputElement, digits: number, defaultValue: number = 0): number {
     if (target.validity.valid) {
       const value = parseFloat(target.value);
       const roundedValue = this.roundTo(value, digits);
@@ -79,7 +79,7 @@ export class NvqLoanCalculator {
     }
   
     if (target.dataset.lastValidValue === undefined) {
-      target.dataset.lastValidValue = "0";
+      target.dataset.lastValidValue = defaultValue.toString();
     }
   
     target.value = this.roundTo(parseFloat(target.dataset.lastValidValue), digits).toString();
@@ -117,10 +117,13 @@ export class NvqLoanCalculator {
   private calculatePayment() {
     // Assuming monthly compounding.
     const monthlyInterestRate = this.interestRate / 100 / 12;
+    if (this.amortizationYears === undefined){
+      return "";
+    }
     const numberOfPayments = this.amortizationYears * 12;
 
     if (monthlyInterestRate === 0) {
-      return (this.totalAmount - this.downPayment) / numberOfPayments;
+      return ((this.totalAmount - this.downPayment) / numberOfPayments).toFixed(2);
     }
 
     const monthlyPayment = (this.totalAmount - this.downPayment) * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments) / (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
@@ -202,12 +205,12 @@ export class NvqLoanCalculator {
               <input
                 type="number"
                 placeholder={this.amortizationPeriodLabel}
-                min={0}
+                min={1}
                 step={1}
                 required
                 value={this.amortizationYears}
                 onKeyDown={e => this.onlyAllowNumbers(e)}
-                onInput={e => this.amortizationYears = this.getValidatedNumber(e.target as HTMLInputElement, 0)}
+                onInput={e => this.amortizationYears = this.getValidatedNumber(e.target as HTMLInputElement, 0, 1)}
                 onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
               />
               <div class="error"></div>
