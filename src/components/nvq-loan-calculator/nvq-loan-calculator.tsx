@@ -70,7 +70,7 @@ export class NvqLoanCalculator {
     }
   }
 
-  private getValidatedNumber(target: HTMLInputElement, digits: number): number {
+  private getValidatedNumber(target: HTMLInputElement, digits: number, defaultValue: number = 0): number {
     if (target.validity.valid) {
       const value = parseFloat(target.value);
       const roundedValue = this.roundTo(value, digits);
@@ -79,7 +79,7 @@ export class NvqLoanCalculator {
     }
   
     if (target.dataset.lastValidValue === undefined) {
-      target.dataset.lastValidValue = "0";
+      target.dataset.lastValidValue = defaultValue.toString();
     }
   
     target.value = this.roundTo(parseFloat(target.dataset.lastValidValue), digits).toString();
@@ -117,10 +117,13 @@ export class NvqLoanCalculator {
   private calculatePayment() {
     // Assuming monthly compounding.
     const monthlyInterestRate = this.interestRate / 100 / 12;
+    if (this.amortizationYears === undefined){
+      return "";
+    }
     const numberOfPayments = this.amortizationYears * 12;
 
     if (monthlyInterestRate === 0) {
-      return (this.totalAmount - this.downPayment) / numberOfPayments;
+      return ((this.totalAmount - this.downPayment) / numberOfPayments).toFixed(2);
     }
 
     const monthlyPayment = (this.totalAmount - this.downPayment) * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments) / (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
@@ -202,12 +205,12 @@ export class NvqLoanCalculator {
               <input
                 type="number"
                 placeholder={this.amortizationPeriodLabel}
-                min={0}
+                min={1}
                 step={1}
                 required
                 value={this.amortizationYears}
                 onKeyDown={e => this.onlyAllowNumbers(e)}
-                onInput={e => this.amortizationYears = this.getValidatedNumber(e.target as HTMLInputElement, 0)}
+                onInput={e => this.amortizationYears = this.getValidatedNumber(e.target as HTMLInputElement, 0, 1)}
                 onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
               />
               <div class="error"></div>
@@ -216,14 +219,15 @@ export class NvqLoanCalculator {
         </div>
         <div class="result">
           <h4 class="text-center">{this.monthlyPaymentLabel}<sup>‡</sup></h4>
-          <span class="output">{this.calculatePayment()}$</span>
-            <p class="disclaimer mb-4"><sup>‡</sup>{this.monthlyPaymentDisclaimer}</p>
+          <span class="output">${this.calculatePayment()}</span>
+            <p class="disclaimer"><sup>‡</sup>{this.monthlyPaymentDisclaimer}</p>
         </div>
       </div>
       <slot name="footnote">
+        <hr />
         <p>
           <small>
-            <sup>*</sup> Your APR and monthly payment may differ based on loan purpose, amount, term, and your credit profile. Subject to credit approval. Conditions and limitations apply. Advertised rates and terms are subject to change without notice. Exact interest rate determined by credit profile.
+            * Your APR and monthly payment may differ based on loan purpose, amount, term, and your credit profile. Subject to credit approval. Conditions and limitations apply. Advertised rates and terms are subject to change without notice. Exact interest rate determined by credit profile.
           </small>
         </p>
       </slot>
