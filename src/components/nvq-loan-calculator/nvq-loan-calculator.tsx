@@ -216,14 +216,15 @@ export class NvqLoanCalculator {
         </div>
         <div class="result">
           <h4 class="text-center">{this.monthlyPaymentLabel}<sup>‡</sup></h4>
-          <span class="output">{this.calculatePayment()}$</span>
-            <p class="disclaimer mb-4"><sup>‡</sup>{this.monthlyPaymentDisclaimer}</p>
+          <span class="output">${this.calculatePayment()}</span>
+            <p class="disclaimer"><sup>‡</sup>{this.monthlyPaymentDisclaimer}</p>
         </div>
       </div>
       <slot name="footnote">
+        <hr />
         <p>
           <small>
-            <sup>*</sup> Your APR and monthly payment may differ based on loan purpose, amount, term, and your credit profile. Subject to credit approval. Conditions and limitations apply. Advertised rates and terms are subject to change without notice. Exact interest rate determined by credit profile.
+            * Your APR and monthly payment may differ based on loan purpose, amount, term, and your credit profile. Subject to credit approval. Conditions and limitations apply. Advertised rates and terms are subject to change without notice. Exact interest rate determined by credit profile.
           </small>
         </p>
       </slot>
