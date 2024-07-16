@@ -71,6 +71,11 @@ export class NvqLoanCalculator {
   }
 
   private getValidatedNumber(target: HTMLInputElement, digits: number, defaultValue: number = 0): number {
+    if (target.value === '') {
+      target.dataset.lastValidValue = defaultValue.toString();
+      return undefined;
+    }
+
     if (target.validity.valid) {
       const value = parseFloat(target.value);
       const roundedValue = this.roundTo(value, digits);
@@ -115,6 +120,10 @@ export class NvqLoanCalculator {
   }
 
   private calculatePayment() {
+    if (isNaN(this.downPayment)) {
+      this.downPayment = 0;
+    }
+
     // Assuming monthly compounding.
     const monthlyInterestRate = this.interestRate / 100 / 12;
     if (this.amortizationYears === undefined){
@@ -176,8 +185,7 @@ export class NvqLoanCalculator {
                 min={0}
                 max={this.totalAmount}
                 step={0.01}
-                required
-                value={this.downPayment}
+                value={this.downPayment > 0 ? this.downPayment : ''}
                 onKeyDown={e => this.onlyAllowNumbers(e)}
                 onInput={e => this.downPayment = this.getValidatedNumber(e.target as HTMLInputElement, 2)}
                 onBlur={e => this.displayErrorIfAny(e.target as HTMLInputElement)}
