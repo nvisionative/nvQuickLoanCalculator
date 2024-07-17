@@ -25,11 +25,12 @@ A loan calculator component.
 
 ## Slots
 
-| Slot         | Description                                                                |
-| ------------ | -------------------------------------------------------------------------- |
-| `"examples"` | Can be used to inject examples content on the left side of the calculator. |
-| `"footnote"` | Can be used to inject footnote content below the calculator.               |
-| `"heading"`  | Can be used to inject heading content on top of the calculator.            |
+| Slot                       | Description                                                                |
+| -------------------------- | -------------------------------------------------------------------------- |
+| `"examples"`               | Can be used to inject examples content on the left side of the calculator. |
+| `"footnote"`               | Can be used to inject footnote content below the calculator.               |
+| `"heading"`                | Can be used to inject heading content on top of the calculator.            |
+| `"monthly-payment-footer"` | Can be used to inject footer content below the monthly payment.            |
 
 
 ## CSS Custom Properties
