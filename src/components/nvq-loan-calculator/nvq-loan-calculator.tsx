@@ -4,6 +4,7 @@ import { Component, Host, Prop, h, State } from '@stencil/core';
  * A loan calculator component.
  * @slot heading - Can be used to inject heading content on top of the calculator.
  * @slot examples - Can be used to inject examples content on the left side of the calculator.
+ * @slot monthly-payment-footer - Can be used to inject footer content below the monthly payment.
  * @slot footnote - Can be used to inject footnote content below the calculator.
  * */
 @Component({
@@ -228,7 +229,8 @@ export class NvqLoanCalculator {
         <div class="result">
           <h4 class="text-center">{this.monthlyPaymentLabel}<sup>‡</sup></h4>
           <span class="output">${this.calculatePayment()}</span>
-            <p class="disclaimer"><sup>‡</sup>{this.monthlyPaymentDisclaimer}</p>
+          <p class="disclaimer"><sup>‡</sup>{this.monthlyPaymentDisclaimer}</p>
+          <slot name="monthly-payment-footer"></slot>
         </div>
       </div>
       <slot name="footnote">
